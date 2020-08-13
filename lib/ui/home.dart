@@ -10,8 +10,19 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   int _currentWeightValue = 1;
   int _currentHeightValue = 1;
-  void _calculateBMI(){
+  void _calculateBMI(BuildContext context){
+    var alertDialog = AlertDialog(
+      title: new Text("Your BMI"),
+      content: new Text("${((_currentWeightValue/(_currentHeightValue * _currentHeightValue)) * 10000).toStringAsFixed(2)}"),
+      actions: <Widget>[
+        new FlatButton(onPressed: () => Navigator.of(context).pop(true), child: new Text("OK")),
+      ],
+    );
 
+    showDialog(context: context,
+    builder: (BuildContext context){
+      return alertDialog;
+    });
   }
   @override
   Widget build(BuildContext context) {
@@ -85,10 +96,18 @@ class _HomeState extends State<Home> {
 
             Padding(
               padding: const EdgeInsets.all(12.0),
-              child: new FlatButton(onPressed: _calculateBMI, child: new Text("Calculate BMI",
-                  style: new TextStyle(backgroundColor: Colors.blueAccent,
-              color: Colors.white,)),
-                color: Colors.blueAccent, ),
+              child: RaisedButton(
+                onPressed: () {
+                  _calculateBMI(context);
+                },
+                child: Text("Calculate BMI"),
+                color: Colors.blueAccent,
+                textColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: new BorderRadius.circular(18.0),
+                ),
+                padding: EdgeInsets.fromLTRB(12, 12, 12, 12),
+              ),
             ),
           ],
         ),
